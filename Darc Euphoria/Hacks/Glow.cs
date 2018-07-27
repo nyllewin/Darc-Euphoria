@@ -14,8 +14,7 @@ namespace Darc_Euphoria.Hacks
 {
     class Glow
     {
-        public static GlowColor glowColor = new GlowColor();
-        public static GlowSettings glowSettings = new GlowSettings();
+        
         public static Settings.UserSettings.Visuals visuals = new Settings.UserSettings.Visuals();
         public static Settings.UserSettings.VisColors visColors = new Settings.UserSettings.VisColors();
 
@@ -32,11 +31,12 @@ namespace Darc_Euphoria.Hacks
                     break;
                 }
 
-                Thread.Sleep(10);
+                Thread.Sleep(1);
+
 
                 visuals = Settings.userSettings.VisualSettings;
                 visColors = Settings.userSettings.VisualColors;
-                glowSettings = new GlowSettings(true, true, visuals.FullBloom);
+                GlowSettings glowSettings = new GlowSettings(true, true, visuals.FullBloom);
 
                 if (!Local.InGame) continue;
                 if (!visuals.Enabled) continue;
@@ -46,6 +46,7 @@ namespace Darc_Euphoria.Hacks
                 {
                     if (!visuals.DisplayTeam && player.isTeam) continue;
 
+                    GlowColor glowColor = new GlowColor();
                     if (visuals.PseudoChams)
                     {
                         if (player.isTeam)
