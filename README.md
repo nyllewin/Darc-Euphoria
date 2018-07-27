@@ -75,10 +75,10 @@ A very sexy color picker that I made.
 [Configs]  
 -Load and Save Cheat/Skin Configs  
 
-![](\ScreenShots\AimbotTab.png)
-![](\ScreenShots\TriggerbotTab.png)
-![](\ScreenShots\VisualsTab.png)
-![](\ScreenShots\SkinsTab.png)
-![](\ScreenShots\MiscTab.png)
-![](\ScreenShots\ColorsTab.png)
-![](\ScreenShots\ConfigsTab.png)
+![](ScreenShots\AimbotTab.png)
+![](ScreenShots\TriggerbotTab.png)
+![](ScreenShots\VisualsTab.png)
+![](ScreenShots\SkinsTab.png)
+![](ScreenShots\MiscTab.png)
+![](ScreenShots\ColorsTab.png)
+![](ScreenShots\ConfigsTab.png)
