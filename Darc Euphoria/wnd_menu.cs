@@ -672,8 +672,6 @@ namespace Darc_Euphoria
             menu_cheats.Region = new Region(new RectangleF(tab_aimbot.Left, tab_aimbot.Top, tab_aimbot.Width, tab_aimbot.Height));
             #endregion
 
-            Local._bsp = new Euphoric.BspParsing.BSP(Local.MapPath + @"maps\de_dust2.bsp");
-            Local._bspFalse = Local._bsp;
             Thread.Sleep(1);
             entityUpdate.Start();
             miscThread.Start();
@@ -1353,11 +1351,6 @@ namespace Darc_Euphoria
                         this.Top = (gvar.OverlaySize.Height / 2) - (this.Height / 2);
                     }
                 });
-
-                if (gvar.RefreshID == int.MaxValue)
-                    gvar.RefreshID = 0;
-
-                gvar.RefreshID++;
             }
         }
 
@@ -1376,7 +1369,6 @@ namespace Darc_Euphoria
                 try
                 {
                     Local._bsp.Dispose();
-                    Local._bspFalse.Dispose();
                 }
                 catch { }
 
@@ -1401,7 +1393,6 @@ namespace Darc_Euphoria
             }
 
             Local._bsp.Dispose();
-            Local._bspFalse.Dispose();
 
             Local.ThirdPerson = false;
             SetClanTag.Set("");

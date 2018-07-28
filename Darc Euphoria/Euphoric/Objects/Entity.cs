@@ -1,8 +1,10 @@
 ﻿using Darc_Euphoria.Euphoric.Config;
+using Darc_Euphoria.Hacks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Darc_Euphoria.Euphoric.Structs;
@@ -19,7 +21,7 @@ namespace Darc_Euphoria.Euphoric.Objects
         private static Entity[] _GetPlayers;
 
         private static int rGetPlayers = 0;
-        public static Entity[] EntityList
+        public static Entity[] EntityArray
         {
             get
             {
@@ -33,7 +35,7 @@ namespace Darc_Euphoria.Euphoric.Objects
 
                         if (player.Ptr <= 0 || player.Ptr == Local.Ptr) continue;
 
-                        returnArray.Add(new Entity(i, true));
+                        returnArray.Add(player);
                     }
 
                     _GetPlayers = returnArray.ToArray();
@@ -207,7 +209,9 @@ namespace Darc_Euphoria.Euphoric.Objects
         {
             get
             {
-                return _Visible;
+                if (Dormant) return false;
+                else if (SpottedByMask) return true;
+                else return Local._bsp.IsVisible(Local.EyeLevel, BonePosition(6));
             }
         }
 
@@ -277,11 +281,6 @@ namespace Darc_Euphoria.Euphoric.Objects
         public Entity(int index, bool Bsp = false)
         {
             Index = index;
-
-            if (Bsp)
-            {
-                _Visible = Local.Bsp.IsVisible(Local.EyeLevel, BonePosition(6));
-            }
         }
     }
 }

@@ -186,6 +186,7 @@ namespace Darc_Euphoria
         }
 
         private static bool isReady = false;
+        
         private static void dxThread()
         {
             while (gvar.isRunning)
@@ -198,11 +199,17 @@ namespace Darc_Euphoria
                     break;
                 }
 
-                
+                if (gvar.RefreshID == int.MaxValue)
+                    gvar.RefreshID = 0;
+
+                gvar.RefreshID++;
+
+                EntityList.Update = true;
+
+                var frameLength = 1000f / gvar.Fps;
 
                 try
                 {
-                    Thread.Sleep(10);
                     #region Begin Device
                     Device.BeginDraw();
                     Device.Clear(new RawColor4(0, 0, 0, 0));
@@ -302,6 +309,11 @@ namespace Darc_Euphoria
 
                     Device.EndDraw();
                 } catch { Thread.Sleep(10); }
+
+                var delayLength = gvar.Fps / (gvar.GlobalVarsBase.frametime * 1000);
+                if (delayLength > 0 && !float.IsInfinity(frameLength))
+                    Thread.Sleep((int)delayLength);
+
             }
             Device.Dispose();
         }

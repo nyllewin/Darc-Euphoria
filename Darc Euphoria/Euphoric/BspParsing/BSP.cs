@@ -373,6 +373,7 @@ namespace Darc_Euphoria.Euphoric.BspParsing
         }
         #endregion
 
+        #region METHODS - VISIBILITY
         public Leaf GetLeafForPoint(Vector3 point)
         {
             int node = 0;
@@ -436,5 +437,6 @@ namespace Darc_Euphoria.Euphoric.BspParsing
             }
             return (pLeaf.contents & ContentsFlag.CONTENTS_SOLID) != ContentsFlag.CONTENTS_SOLID;
         }
+        #endregion
     }
 }

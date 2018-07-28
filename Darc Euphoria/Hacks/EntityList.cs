@@ -2,6 +2,7 @@
 using Darc_Euphoria.Euphoric.Objects;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,11 +14,10 @@ namespace Darc_Euphoria.Hacks
 {
     public static class EntityList
     {
+        public static Entity player;
         public static Entity[] List;
         public static ItemObjects[] ItemList;
-        public static bool update = false;
-
-
+        public static bool Update = false;
         public static void Start()
         {
             while (true)
@@ -32,22 +32,34 @@ namespace Darc_Euphoria.Hacks
                 }
 
                 Thread.Sleep(10);
+
                 if (!Local.InGame) continue;
 
-                List = Entity.EntityList;
-                ItemList = ItemObjects.ItemList;
-
-                if (update)
+                if (Update)
                 {
-                    if (Local.MapFile != null)
-                    {
-                        Local._bsp = new Euphoric.BspParsing.BSP(Local.MapFile);
-                        Thread.Sleep(1000);
-                    }
-                    update = false;
+                    List = Entity.EntityArray;
+                    ItemList = ItemObjects.ItemList;
+                    Update = false;
+                }
+                
+
+                string MapPath = string.Format(@"{0}\csgo\maps\{1}.bsp", 
+                    Memory.process.Modules[0].FileName.Substring(0, Memory.process.Modules[0].FileName.Length - 9), Local.MapName);
+
+                if (Local.InGame && Local._bsp.FileName != MapPath)
+                {
+                    LoadMap(MapPath);
                 }
             }
+        }
 
+        public static void LoadMap(string MapPath)
+        {
+            if (File.Exists(MapPath) && Local.ActiveWeapon.WeaponID != -1)
+            {
+                Local._bsp.Dispose();
+                Local._bsp = new Euphoric.BspParsing.BSP(MapPath);
+            }
         }
 
     }

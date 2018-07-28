@@ -35,25 +35,8 @@ namespace Darc_Euphoria.Euphoric.Objects
         private static int _CrosshairID;
         private static int _Fov;
         private static float _Flash;
-        public static BspParsing.BSP _bsp;
-        public static BspParsing.BSP _bspFalse;
-
-        public static BspParsing.BSP Bsp
-        {
-            get
-            {
-                if (!InGame) return _bspFalse;
-
-                if (MapFile == null) return _bspFalse;
-
-                if (_bsp.FileName != MapFile)
-                {
-                    EntityList.update = true;
-                }
-
-                return _bsp;
-            }
-        }
+        public static BspParsing.BSP _bsp = new BspParsing.BSP(string.Format(@"{0}\csgo\maps\de_dust2.bsp", 
+            Memory.process.Modules[0].FileName.Substring(0, Memory.process.Modules[0].FileName.Length - 9)));
 
         private static int rFov = 0;
 
