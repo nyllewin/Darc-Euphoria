@@ -29,7 +29,7 @@ namespace Darc_Euphoria.Euphoric
         public static bool isShuttingDown = false;
         public static int SHUTDOWN = 0;
 
-        public static float Fps = 100;
+        public static float Fps = 60;
         private static CGlobalVarsBase _GlobalVarsBase;
         public static int rGlobalVarsBase = 0;
         public static CGlobalVarsBase GlobalVarsBase

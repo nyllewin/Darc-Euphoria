@@ -33,14 +33,12 @@ namespace Darc_Euphoria.Hacks
 
         public static void Start()
         {
+            gvar.SHUTDOWN++;
             while (true)
             {
                 if (gvar.isShuttingDown)
                 {
-                    while (gvar.SHUTDOWN != 0)
-                        Thread.Sleep(1);
-
-                    gvar.SHUTDOWN++;
+                    gvar.SHUTDOWN--;
                     break;
                 }
 

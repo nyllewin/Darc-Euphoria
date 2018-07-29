@@ -15,14 +15,12 @@ namespace Darc_Euphoria.Hacks
         private static int _lastLag = 0;
         public static void Start()
         {
-            while(true)
+            gvar.SHUTDOWN++;
+            while (true)
             {
                 if (gvar.isShuttingDown)
                 {
-                    while (gvar.SHUTDOWN != 3)
-                        Thread.Sleep(1);
-
-                    gvar.SHUTDOWN++;
+                    gvar.SHUTDOWN--;
                     Local.SendPackets = true;
                     break;
                 }

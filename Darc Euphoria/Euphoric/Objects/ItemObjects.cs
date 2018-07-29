@@ -27,12 +27,14 @@ namespace Darc_Euphoria.Euphoric.Objects
                 {
                     List<ItemObjects> returnArray = new List<ItemObjects>();
 
-                    for (int i = 64; i < Local.EntityListLength; i++)
+                    for (int i = 65; i < Local.EntityListLength; i++)
                     {
                         ItemObjects item = new ItemObjects(i);
 
                         if (item.Ptr == 0) continue;
                         if (item.HasOwner) continue;
+                        if (item.Dormant) continue;
+                        if (item.ClassName == "-1") continue;
 
                         returnArray.Add(item);
                     }

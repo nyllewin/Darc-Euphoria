@@ -35,11 +35,10 @@ namespace Darc_Euphoria.Hacks
                     if (!Settings.userSettings.MiscSettings.Spectators) return;
                 }
             }
-                
 
-            matrix = Memory.Read<Matrix4x4>(Memory.client + Offsets.dwViewMatrix);
             Items(Device);
             Players(Device);
+            Glow.Start();
         }
 
         public static void Players(RenderTarget Device)
@@ -56,8 +55,7 @@ namespace Darc_Euphoria.Hacks
                 if (Settings.userSettings.MiscSettings.Spectators && Local.Health > 0)
                     Spectators(Device);
 
-                if (!visuals.Enabled) continue;
-
+                if (!visuals.Enabled) return;
 
                 if (player.Health <= 0 || player.Dormant) continue;
                 if (player.isTeam && !visuals.DisplayTeam) continue;
@@ -124,9 +122,6 @@ namespace Darc_Euphoria.Hacks
 
                 if (visuals.HealthPostion != Settings.HealthDisplay.Off)
                     HealthBar(Device, drawArea, player);
-
-                
-
             }
         }
 
@@ -215,6 +210,7 @@ namespace Darc_Euphoria.Hacks
                         Left = item.Position.ToScreen().x - 10,
                         Right = item.Position.ToScreen().x + 10,
                     };
+
                     brush.Color = Color.FromArgb(1, 1, 1).toRawColor4();
                     Device.DrawText(item.ClassName, txtForm, rect2, brush, DrawTextOptions.NoSnap);
                     brush.Color = visColors.World_Text.toRawColor4();
@@ -493,9 +489,6 @@ namespace Darc_Euphoria.Hacks
         {
             using (SolidColorBrush brush = new SolidColorBrush(Device, Color.Empty.toRawColor4()))
             {
-                TextFormat txtForm = new TextFormat(new SharpDX.DirectWrite.Factory(),
-                    "Calibri", FontWeight.Bold, SharpDX.DirectWrite.FontStyle.Normal, 10);
-
                 txtForm.SetTextAlignment(TextAlignment.Center);
                 txtForm.SetWordWrapping(WordWrapping.NoWrap);
 
@@ -517,7 +510,6 @@ namespace Darc_Euphoria.Hacks
                 if (player.isTeam) brush.Color = visColors.Team_Text.toRawColor4();
                 else brush.Color = visColors.Enemy_Text.toRawColor4();
                 Device.DrawText(player.Name, txtForm, rect, brush, DrawTextOptions.EnableColorFont | DrawTextOptions.DisableColorBitmapSnapping | DrawTextOptions.NoSnap);
-                txtForm.Dispose();
             };
         }
 
@@ -525,9 +517,6 @@ namespace Darc_Euphoria.Hacks
         {
             using (SolidColorBrush brush = new SolidColorBrush(Device, Color.Empty.toRawColor4()))
             {
-                TextFormat txtForm = new TextFormat(new SharpDX.DirectWrite.Factory(),
-                    "Calibri", FontWeight.Bold, SharpDX.DirectWrite.FontStyle.Normal, 10);
-
                 txtForm.SetTextAlignment(TextAlignment.Center);
                 txtForm.SetWordWrapping(WordWrapping.NoWrap);
 
@@ -550,7 +539,6 @@ namespace Darc_Euphoria.Hacks
                 else brush.Color = visColors.Enemy_Text.toRawColor4();
 
                 Device.DrawText(player.Rank.GetRankName(), txtForm, rect, brush, DrawTextOptions.EnableColorFont | DrawTextOptions.DisableColorBitmapSnapping | DrawTextOptions.NoSnap);
-                txtForm.Dispose();
             };
         }
 
@@ -558,9 +546,6 @@ namespace Darc_Euphoria.Hacks
         {
             using (SolidColorBrush brush = new SolidColorBrush(Device, Color.Empty.toRawColor4()))
             {
-                TextFormat txtForm = new TextFormat(new SharpDX.DirectWrite.Factory(),
-                    "Calibri", FontWeight.Bold, SharpDX.DirectWrite.FontStyle.Normal, 10);
-
                 txtForm.SetTextAlignment(TextAlignment.Center);
                 txtForm.SetWordWrapping(WordWrapping.NoWrap);
 
@@ -588,9 +573,6 @@ namespace Darc_Euphoria.Hacks
         {
             using (SolidColorBrush brush = new SolidColorBrush(Device, Color.Empty.toRawColor4()))
             {
-                TextFormat txtForm = new TextFormat(new SharpDX.DirectWrite.Factory(),
-                    "Calibri", FontWeight.Bold, SharpDX.DirectWrite.FontStyle.Normal, 10);
-
                 txtForm.SetTextAlignment(TextAlignment.Trailing);
                 txtForm.SetWordWrapping(WordWrapping.NoWrap);
 
@@ -609,7 +591,6 @@ namespace Darc_Euphoria.Hacks
                 brush.Color = Color.White.toRawColor4();
    
                 Device.DrawText(spectatorString, txtForm, rect, brush, DrawTextOptions.EnableColorFont | DrawTextOptions.DisableColorBitmapSnapping | DrawTextOptions.NoSnap);
-                txtForm.Dispose();
             };
         }
     }

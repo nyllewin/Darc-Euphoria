@@ -22,6 +22,7 @@ using Darc_Euphoria.Euphoric.Config;
 using Darc_Euphoria.Hacks;
 using Darc_Euphoria.Euphoric.Objects;
 using static Darc_Euphoria.Euphoric.Structs;
+using System.Diagnostics;
 
 namespace Darc_Euphoria
 {
@@ -42,17 +43,14 @@ namespace Darc_Euphoria
 
         public wnd_overlay()
         {
-            InitializeComponent();
-
             this.Paint += Wnd_overlay_Paint;
-            this.SetStyle(
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.UserPaint, true);
 
             int initialStyle = WinAPI.GetWindowLong(this.Handle, -20);
             WinAPI.SetWindowLong(this.Handle, -20,  initialStyle | 0x80000 | 0x20 | 0x80);
 
+            InitializeComponent();
+
+            var factory = new Factory();
             var renderProp = new HwndRenderTargetProperties()
             {
                 Hwnd = this.Handle,
@@ -60,7 +58,6 @@ namespace Darc_Euphoria
                 PresentOptions = PresentOptions.Immediately,
             };
 
-            var factory = new Factory();
             Device = new WindowRenderTarget(factory,
                 new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)),
                 renderProp);
@@ -124,7 +121,7 @@ namespace Darc_Euphoria
                     this.Location = point;
                     gvar.OverlayPoint = Location;
                 });
-                Thread.Sleep(5);
+                Thread.Sleep(100);
             }
         }
 
@@ -151,6 +148,7 @@ namespace Darc_Euphoria
 
             Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, p), dBrushBack);
             Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, p), dBrush);
+
             dBrushBack.Dispose();
             dBrush.Dispose();
         }
@@ -189,24 +187,23 @@ namespace Darc_Euphoria
         
         private static void dxThread()
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            gvar.SHUTDOWN++;
             while (gvar.isRunning)
             {
                 if (gvar.isShuttingDown)
                 {
-                    while (gvar.SHUTDOWN != 8)
-                        Thread.Sleep(1);
-                    gvar.SHUTDOWN++;
+                    gvar.SHUTDOWN--;
                     break;
                 }
+                var frameLength = 1000f / gvar.Fps;
 
                 if (gvar.RefreshID == int.MaxValue)
                     gvar.RefreshID = 0;
 
                 gvar.RefreshID++;
-
-                EntityList.Update = true;
-
-                var frameLength = 1000f / gvar.Fps;
 
                 try
                 {
@@ -245,6 +242,8 @@ namespace Darc_Euphoria
                         Device.EndDraw();
                         continue;
                     }
+
+                    ESP.Start(Device);
 
                     if ((Settings.userSettings.VisualSettings.SniperCrosshair && Local.ActiveWeapon.isSniper()) || 
                         Settings.userSettings.VisualSettings.RecoilCrosshair)
@@ -305,14 +304,17 @@ namespace Darc_Euphoria
 
                     }
 
-                    ESP.Start(Device);
+                    
 
                     Device.EndDraw();
                 } catch { Thread.Sleep(10); }
 
-                var delayLength = gvar.Fps / (gvar.GlobalVarsBase.frametime * 1000);
+                
+                var delayLength = frameLength - stopwatch.ElapsedMilliseconds;
                 if (delayLength > 0 && !float.IsInfinity(frameLength))
                     Thread.Sleep((int)delayLength);
+
+                stopwatch.Restart();
 
             }
             Device.Dispose();

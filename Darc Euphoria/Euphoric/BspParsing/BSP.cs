@@ -60,6 +60,11 @@ namespace Darc_Euphoria.Euphoric.BspParsing
                 FileName = filePath;
             }
         }
+        public BSP()
+        {
+
+        }
+
 
         #region METHODS - LOAD
         private void Load(Stream stream)

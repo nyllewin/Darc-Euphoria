@@ -205,13 +205,23 @@ namespace Darc_Euphoria.Euphoric.Objects
             }
         }
 
+        private static int rVisible = 0;
         public bool Visible
         {
             get
             {
-                if (Dormant) return false;
-                else if (SpottedByMask) return true;
-                else return Local._bsp.IsVisible(Local.EyeLevel, BonePosition(6));
+                if (rVisible.Upd())
+                {
+                    if (Dormant)
+                        _Visible = false;
+                    else if (SpottedByMask)
+                        _Visible = true;
+                    else
+                        _Visible = Local._bsp.IsVisible(Local.EyeLevel, BonePosition(6));
+                }
+
+                return _Visible;
+                
             }
         }
 

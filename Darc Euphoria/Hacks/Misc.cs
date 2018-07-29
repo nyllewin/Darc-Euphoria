@@ -16,43 +16,27 @@ namespace Darc_Euphoria.Hacks
     {
         public static void Start()
         {
+            gvar.SHUTDOWN++;
             while (true)
             {
                 if (gvar.isShuttingDown)
                 {
-                    while (gvar.SHUTDOWN != 5)
-                        Thread.Sleep(1);
-                    gvar.SHUTDOWN++;
+                    gvar.SHUTDOWN--;
                     break;
                 }
 
-                Thread.Sleep(10);
+                Thread.Sleep(1);
 
                 if (!Local.InGame) continue;
 
+                Triggerbot.Start();
+                Bunnyhop.Start();
+                SkinChanger.Start();
+
                 ClanTagChanger.Start();
                 Rank.Start();
-
-                if (Settings.userSettings.MiscSettings.ChatSpammer)
-                {
-                    Random r = new Random();
-                    int t = r.Next(0, 9);
-                    switch (t)
-                    {
-                        case 0: ClientCMD.Exec("say Get Mediocre, Go Euphoric."); break;
-                        case 1: ClientCMD.Exec("say Darc Euphoira, an alright C# External Cheat."); break;
-                        case 2: ClientCMD.Exec("say Get Mediocre, Get Darc Euphoria."); break;
-                        case 3: ClientCMD.Exec("say Don't cry if I kill you. It's just a good gaming chair."); break;
-                        case 4: ClientCMD.Exec("say If you say Darc Euphoria is shit, I won't argue, cause it is."); break;
-                        case 5: ClientCMD.Exec("say Phansea owns Darc Euphoria and me."); break;
-                        case 6: ClientCMD.Exec("say Why you mad? Is it because I rejected your confession?"); break;
-                        case 7: ClientCMD.Exec("say If you kill me it's luck."); break;
-                        case 8: ClientCMD.Exec("say If I kill you it's because you suck."); break;
-                        default: break;
-                    }
-                    Thread.Sleep(20);
-                }
-
+                ChatSpammer.Start();
+                
                 if (Settings.userSettings.VisualSettings.NoScope)
                 {
                     if (Local.Scoped) Local.Scoped = false;

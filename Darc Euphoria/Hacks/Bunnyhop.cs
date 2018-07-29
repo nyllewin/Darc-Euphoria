@@ -15,26 +15,13 @@ namespace Darc_Euphoria.Hacks
     {
         public static void Start()
         {
-            while (true)
-            {
-                if (gvar.isShuttingDown)
-                {
-                    while (gvar.SHUTDOWN != 1)
-                        Thread.Sleep(1);
+            if (gvar.isMenu) return;
+            if (!Local.InGame) return;
+            if (!Settings.userSettings.MiscSettings.BunnyHop) return;
+            if ((WinAPI.GetAsyncKeyState(32) & 0x8000) <= 0) return;
+            if (Local.Flags != 257 && Local.Flags != 263) return;
 
-                    gvar.SHUTDOWN++;
-                    break;
-                }
-
-                Thread.Sleep(10);
-                if (gvar.isMenu) continue;
-                if (!Local.InGame) continue;
-                if (!Settings.userSettings.MiscSettings.BunnyHop) continue;
-                if ((WinAPI.GetAsyncKeyState(32) & 0x8000) <= 0) continue;
-                if (Local.Flags != 257 && Local.Flags != 263) continue;
-
-                Local.Jump();
-            }
+            Local.Jump();
         }
     }
 }

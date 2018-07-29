@@ -586,20 +586,6 @@ namespace Darc_Euphoria
             Priority = ThreadPriority.AboveNormal,
             IsBackground = true,
         };
-        Thread triggerbotThread = new Thread(new ThreadStart(Triggerbot.Start))
-        {
-            Priority = ThreadPriority.AboveNormal,
-            IsBackground = true,
-        };
-        Thread bhopThread = new Thread(new ThreadStart(Bunnyhop.Start))
-        {
-            Priority = ThreadPriority.Highest,
-            IsBackground = true,
-        };
-        Thread glowThread = new Thread(new ThreadStart(Glow.Start))
-        {
-            Priority = ThreadPriority.Highest,
-        };
         Thread aimbotThread = new Thread(new ThreadStart(Aimbot.Start))
         {
             Priority = ThreadPriority.Highest,
@@ -609,11 +595,6 @@ namespace Darc_Euphoria
             Priority = ThreadPriority.AboveNormal,
         };
         Thread fakeLagThread = new Thread(new ThreadStart(FakeLag.Start))
-        {
-            Priority = ThreadPriority.Highest,
-            IsBackground = true,
-        };
-        Thread skinchangerThread = new Thread(new ThreadStart(SkinChanger.Start))
         {
             Priority = ThreadPriority.Highest,
             IsBackground = true,
@@ -672,15 +653,18 @@ namespace Darc_Euphoria
             menu_cheats.Region = new Region(new RectangleF(tab_aimbot.Left, tab_aimbot.Top, tab_aimbot.Width, tab_aimbot.Height));
             #endregion
 
+
+            Local._bsp.FileName = "null";
             Thread.Sleep(1);
             entityUpdate.Start();
-            miscThread.Start();
-            triggerbotThread.Start();
-            aimbotThread.Start();
-            glowThread.Start();
-            bhopThread.Start();
-            fakeLagThread.Start();
-            skinchangerThread.Start();
+            //miscThread.Start();
+            //aimbotThread.Start();
+            //fakeLagThread.Start();
+
+            ClientCMD.Exec("clear; echo Darc Euphoria Loaded");
+
+            //This Is For Me
+            ClientCMD.Exec("exec autoexec");
         }
 
         #region Updates
@@ -1363,7 +1347,7 @@ namespace Darc_Euphoria
             }
             else
             {
-                while (gvar.SHUTDOWN != 9)
+                while (gvar.SHUTDOWN != 0)
                     Thread.Sleep(1);
 
                 try
@@ -1386,7 +1370,7 @@ namespace Darc_Euphoria
 
             Thread.Sleep(100);
 
-            while (gvar.SHUTDOWN != 9)
+            while (gvar.SHUTDOWN != 0)
             {
                 this.Refresh();
                 Thread.Sleep(1);

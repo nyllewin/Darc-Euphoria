@@ -34,63 +34,50 @@ namespace Darc_Euphoria.Hacks
 
         public static void Start()
         {
-            while (true)
+            if (gvar.isMenu) return;
+            if (!Local.InGame) return;
+
+
+            if (Settings.userSettings.TriggerbotSettings.Knifebot && Local.ActiveWeapon.isKnife())
             {
-                if (gvar.isShuttingDown)
+                if (CanKnife()) Local.Attack2();
+
+                return;
+            }
+            else
+            {
+                if (!Local.ActiveWeapon.CanFire) return;
+
+                if (Local.CrosshairID < 0 || Local.CrosshairID > 65) return;
+
+                LoadSetting();
+
+                if (!TriggerbotSettings.Enabled) return;
+
+                Entity target = new Entity(Local.CrosshairID);
+
+                if (target.Dormant) return;
+
+                if (target.isTeam && !TriggerbotSettings.TargetTeam) return;
+
+                if (target.Health <= 0) return;
+
+                target.Dispose();
+
+                Thread.Sleep(TriggerbotSettings.Delay);
+
+                if (TriggerbotSettings.TriggerbotMode == Settings.TriggerMode.Auto)
                 {
-                    while (gvar.SHUTDOWN != 7)
-                        Thread.Sleep(1);
-                    gvar.SHUTDOWN++;
-                    break;
+                    Local.Attack(true);
                 }
-
-                Thread.Sleep(10);
-
-                if (gvar.isMenu) continue;
-                if (!Local.InGame) continue;
-
-
-                if (Settings.userSettings.TriggerbotSettings.Knifebot && Local.ActiveWeapon.isKnife())
+                else if (TriggerbotSettings.TriggerbotMode == Settings.TriggerMode.Burst)
                 {
-                    if (CanKnife()) Local.Attack2();
-
-                    continue;
+                    Local.Attack(TriggerbotSettings.BurstAmount);
                 }
                 else
                 {
-                    if (!Local.ActiveWeapon.CanFire) continue;
-
-                    if (Local.CrosshairID < 0 || Local.CrosshairID > 65) continue;
-
-                    LoadSetting();
-
-                    if (!TriggerbotSettings.Enabled) continue;
-
-                    Entity target = new Entity(Local.CrosshairID);
-
-                    if (target.Dormant) continue;
-
-                    if (target.isTeam && !TriggerbotSettings.TargetTeam) continue;
-
-                    if (target.Health <= 0) continue;
-
-                    target.Dispose();
-                    
-                    Thread.Sleep(TriggerbotSettings.Delay);
-
-                    if (TriggerbotSettings.TriggerbotMode == Settings.TriggerMode.Auto)
-                    {
-                        Local.Attack(true);
-                    }
-                    else if (TriggerbotSettings.TriggerbotMode == Settings.TriggerMode.Burst)
-                    {
-                        Local.Attack(TriggerbotSettings.BurstAmount);
-                    }
-                    else
-                    {
-                        Local.Attack();
-                        Thread.Sleep(500);
-                    }
+                    Local.Attack();
+                    Thread.Sleep(500);
                 }
             }
         }
