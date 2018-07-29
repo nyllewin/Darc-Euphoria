@@ -33,6 +33,10 @@ namespace Darc_Euphoria.Hacks
                 Bunnyhop.Start();
                 SkinChanger.Start();
 
+                Local.NoArms = Settings.userSettings.VisualSettings.NoHands;
+                Local.Flash = Settings.userSettings.MiscSettings.FlashAlpha;
+                Local.PostProcessingDisable = Settings.userSettings.MiscSettings.NoPostProcessing;
+
                 ClanTagChanger.Start();
                 Rank.Start();
                 ChatSpammer.Start();
@@ -51,14 +55,14 @@ namespace Darc_Euphoria.Hacks
                     }
                     else if (Local.ActiveWeapon.ScopeLevel == 1)
                     {
-                        Local.Fov = 0;
                         if (Local.ActiveWeapon.WeaponID != 8 && Local.ActiveWeapon.WeaponID != 39)
                             Local.DrawViewModel = false;
+                        Local.Fov = 40;
                     }
                     else if (Local.ActiveWeapon.ScopeLevel == 2)
                     {
-                        Local.Fov = 10;
                         Local.DrawViewModel = false;
+                        Local.Fov = 10;
                     }
                 }
                 else
@@ -70,14 +74,14 @@ namespace Darc_Euphoria.Hacks
                     }
                     else if (Local.ActiveWeapon.ScopeLevel == 1)
                     {
-                        Local.Fov = 40;
                         if (Local.ActiveWeapon.WeaponID != 8 && Local.ActiveWeapon.WeaponID != 39)
                             Local.DrawViewModel = false;
+                        Local.Fov = 40;
                     }
                     else if (Local.ActiveWeapon.ScopeLevel == 2)
                     {
-                        Local.Fov = 10;
                         Local.DrawViewModel = false;
+                        Local.Fov = 10;
                     }
                 }
 
@@ -93,11 +97,6 @@ namespace Darc_Euphoria.Hacks
                 {
                     Local.ThirdPerson = false;
                 }
-
-                Local.Flash = Settings.userSettings.MiscSettings.FlashAlpha;
-                Local.PostProcessingDisable = Settings.userSettings.MiscSettings.NoPostProcessing;
-                Local.NoArms = Settings.userSettings.VisualSettings.NoHands;
-
             }
 
         }

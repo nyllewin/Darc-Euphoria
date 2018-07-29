@@ -17,6 +17,7 @@ namespace Darc_Euphoria.Euphoric.Objects
         public static GlobalVarBase GlobalVar => 
             Memory.Read<GlobalVarBase>(Memory.engine + Offsets.dwGlobalVars);
 
+        private static int _Index;
         private static int _Ptr;
         private static int _ClientState;
         private static int _Health;
@@ -36,6 +37,34 @@ namespace Darc_Euphoria.Euphoric.Objects
         private static int _Fov;
         private static float _Flash;
         public static BspParsing.BSP _bsp = new BspParsing.BSP();
+        private static bool _GotKill;
+        private static int Kills;
+
+        public static int Index
+        {
+            get
+            {
+                return _Index;
+            }
+            set
+            {
+                _Index = value;
+            }
+        }
+
+        public static bool GotKill
+        {
+            get
+            {
+                int _kills = Memory.Read<int>(Offsets.dwPlayerResource + 0xBE8 + (Index + 1) * 0x4);
+                if (Kills < _kills)
+                {
+                    Kills = _kills;
+                    return true;
+                }
+                return false;
+            }
+        }
 
         private static int rFov = 0;
 
@@ -357,7 +386,7 @@ namespace Darc_Euphoria.Euphoric.Objects
                 if (!Scoped) return 1f;
 
 
-                return ActiveWeapon.ScopeLevel == 1 ? 1.2f : 12f;
+                return ActiveWeapon.ScopeLevel == 1 ? 8f : 16f;
             }
         }
 

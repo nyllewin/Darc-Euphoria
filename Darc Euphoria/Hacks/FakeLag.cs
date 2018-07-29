@@ -13,6 +13,7 @@ namespace Darc_Euphoria.Hacks
     class FakeLag
     {
         private static int _lastLag = 0;
+        private static bool once = false;
         public static void Start()
         {
             gvar.SHUTDOWN++;
@@ -37,11 +38,19 @@ namespace Darc_Euphoria.Hacks
 
                 if (!Settings.userSettings.MiscSettings.FakeLag)
                 {
-                    if (Local.SendPackets == false)
-                        Local.SendPackets = true;
+                    if (once)
+                    {
+                        if (Local.SendPackets == false)
+                            Local.SendPackets = true;
+                        once = false;
+                    }
 
                     Thread.Sleep(100);
                     continue;
+                }
+                else
+                {
+                    once = true;
                 }
 
                 if ((WinAPI.GetAsyncKeyState(0x1) & 0x8000) > 0 || WinAPI.GetAsyncKeyState(0x1) > 0)

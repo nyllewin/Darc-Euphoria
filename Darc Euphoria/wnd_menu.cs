@@ -662,6 +662,9 @@ namespace Darc_Euphoria
             fakeLagThread.Start();
 
             ClientCMD.Exec("clear; echo Darc Euphoria Loaded");
+
+            //This Is For Me
+            ClientCMD.Exec("exec autoexec");
         }
 
         #region Updates
@@ -1325,7 +1328,6 @@ namespace Darc_Euphoria
                 {
                     if ((WinAPI.GetAsyncKeyState(0x2D) & 0x1) > 0)
                     {
-                        
                         this.Visible = !this.Visible;
                         gvar.isMenu = Visible;
                         this.Left = (gvar.OverlaySize.Width / 2) - (this.Width / 2);

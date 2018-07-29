@@ -141,21 +141,10 @@ namespace Darc_Euphoria
             factory.Dispose();
         }
 
-        public static void DrawText(string text, Point p)
-        {
-            SolidColorBrush dBrushBack = new SolidColorBrush(Device, Color.Black.toRawColor4());
-            SolidColorBrush dBrush = new SolidColorBrush(Device, Settings.userSettings.VisualColors.World_Text.toRawColor4());
-
-            Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, p), dBrushBack);
-            Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, p), dBrush);
-
-            dBrushBack.Dispose();
-            dBrush.Dispose();
-        }
 
         public static void DrawText(string text, int x, int y)
         {
-            SolidColorBrush dBrushBack = new SolidColorBrush(Device, Color.Black.toRawColor4());
+            SolidColorBrush dBrushBack = new SolidColorBrush(Device, Color.FromArgb(1, 1, 1).toRawColor4());
             SolidColorBrush dBrush = new SolidColorBrush(Device, Settings.userSettings.VisualColors.World_Text.toRawColor4());
 
             if (text == "Darc Euphoria")
@@ -175,7 +164,10 @@ namespace Darc_Euphoria
             }
             else
             {
-                Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, x, y), dBrushBack);
+                Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, x-1, y), dBrushBack);
+                Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, x+1, y), dBrushBack);
+                Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, x, y-1), dBrushBack);
+                Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, x, y+1), dBrushBack);
             }
 
             Device.DrawText(text, gvar.textFormat, MathFuncs.StringSize(text, x, y), dBrush);

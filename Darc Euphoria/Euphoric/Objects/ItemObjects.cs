@@ -32,15 +32,13 @@ namespace Darc_Euphoria.Euphoric.Objects
                         ItemObjects item = new ItemObjects(i);
 
                         if (item.Ptr == 0) continue;
-                        if (item.HasOwner) continue;
-                        if (item.Dormant) continue;
                         if (item.ClassName == "-1") continue;
-
+                        if (item.Dormant) continue;
+                        if (item.HasOwner) continue;
                         returnArray.Add(item);
                     }
 
                     _GetItem = returnArray.ToArray();
-                    
                 }
                 
                 return _GetItem;

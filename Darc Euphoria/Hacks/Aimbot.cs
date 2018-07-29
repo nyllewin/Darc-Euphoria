@@ -98,7 +98,7 @@ namespace Darc_Euphoria.Hacks
                     else
                     {
                         Thread.Sleep(AimbotSettings.Delay);
-
+                    
                         if (AimbotSettings.SmoothPitch == 0 || AimbotSettings.SmoothYaw == 0)
                             Local.SendPackets = false;
 
@@ -109,10 +109,10 @@ namespace Darc_Euphoria.Hacks
 
                         Local.ViewAngle = ang;
 
-                        //SetSilentAngle(CalculateAimAngle(Local.EyeLevel, closestPlayer).ClampAngle());
+                        //SetSilentAngle(ang);
                         //Enable If you dare.
 
-                        Thread.Sleep(1);
+                        Thread.Sleep(6);
 
                         Local.SendPackets = true;
 
@@ -128,6 +128,7 @@ namespace Darc_Euphoria.Hacks
                             if (Math.Round(ang.x, 1) == Math.Round(v2.x, 1) && Math.Round(ang.y, 1) == Math.Round(v2.y, 1))
                                 Attack();
                         }
+                        Thread.Sleep(50);
                     }
                 }   
             }
@@ -355,10 +356,12 @@ namespace Darc_Euphoria.Hacks
                 iUserCMDSequenceNumber = Memory.Read<int>(userCmd + 0x4);
             }
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 40; i++)
                 Memory.Write<Vector2>(userCmd + 0xC, viewangle.ClampAngle());
 
             Local.ViewAngle = oldViewAngle;
+            oldViewAngle.x -= (float)(Local.PunchAngle.x * (AimbotSettings.RcsYaw * 2) / 100);
+            oldViewAngle.y -= (float)(Local.PunchAngle.y * (AimbotSettings.RcsPitch * 2) / 100);
 
             Thread.Sleep(6);
             Local.SendPackets = true;

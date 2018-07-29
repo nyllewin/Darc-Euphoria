@@ -36,10 +36,10 @@ namespace Darc_Euphoria.Euphoric
         {
             get
             {
-                if (rGlobalVarsBase.Upd())
-                    _GlobalVarsBase = Memory.Read<CGlobalVarsBase>(Memory.engine + Offsets.dwGlobalVars);
+                //if (rGlobalVarsBase.Upd())
+                    //_GlobalVarsBase =
 
-                return _GlobalVarsBase;
+                return Memory.Read<CGlobalVarsBase>(Memory.engine + Offsets.dwGlobalVars);
             }
         }
 

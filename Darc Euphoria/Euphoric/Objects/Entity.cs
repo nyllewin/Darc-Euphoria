@@ -33,7 +33,13 @@ namespace Darc_Euphoria.Euphoric.Objects
                     {
                         Entity player = new Entity(i);
 
-                        if (player.Ptr <= 0 || player.Ptr == Local.Ptr) continue;
+                        if (player.Ptr <= 0) continue;
+
+                        if (player.Ptr == Local.Ptr)
+                        {
+                            Local.Index = i;
+                            continue;
+                        }
 
                         returnArray.Add(player);
                     }
