@@ -1,13 +1,15 @@
 # Darc Euphoria
 > Cheat by darc phansea
 
-Darc Euphoria is a CS:GO cheat written completely in C#. Most code is indeed mine, with a few pastes, mainly the BSP parsing. Optization is not my strong point so prepare for that. This uses an overlay which eats at your frames. The overlay is so you can get that noice esp that took me 15 minutes to make. Somethings to keep in mind.
+Darc Euphoria is a CS:GO cheat written completely in C#. Most code is indeed mine, with a few pastes, mainly the BSP parsing (From Zat-s-External). Optization is not my strong point so prepare for that. This uses an overlay which eats at your frames. The overlay is so you can get that noice esp that took me 15 minutes to make. Somethings to keep in mind.
 
 The following features have not been tested but in theory should work.
 1. Spectators
 2. Rank Revealer (Not in Panorama right now)
 3. It's Detection (Havent played in VAC Secured servers yet)
 4. It sometimes freaks out when joining a new map with it active. (just restart the cheat), its a bsp problem that im too lazy to fix
+
+If you wish to give suggestions/ideas. Or even better provide code for optimization I would gladly take it. And give you credit of course
 
 ## Features
 [Aimbot]  
