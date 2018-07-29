@@ -657,14 +657,11 @@ namespace Darc_Euphoria
             Local._bsp.FileName = "null";
             Thread.Sleep(1);
             entityUpdate.Start();
-            //miscThread.Start();
-            //aimbotThread.Start();
-            //fakeLagThread.Start();
+            miscThread.Start();
+            aimbotThread.Start();
+            fakeLagThread.Start();
 
             ClientCMD.Exec("clear; echo Darc Euphoria Loaded");
-
-            //This Is For Me
-            ClientCMD.Exec("exec autoexec");
         }
 
         #region Updates
